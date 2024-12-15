@@ -7,10 +7,9 @@ from asgi_lifespan import LifespanManager
 from typing import AsyncGenerator
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from config.database import get_db
-from app_example.models import Base
-from main import app
 from sqlalchemy.sql import text
+from config.database import Base, get_db
+from main import app
 
 
 @pytest.fixture(scope="session")
@@ -30,7 +29,6 @@ async def async_engine():
     logging.info("Configuration -----> Tables for testing has been removed.")
 
 
-
 @pytest.fixture(scope="session")
 async def async_session(async_engine) -> AsyncGenerator[AsyncSession, None]:
 
@@ -38,7 +36,7 @@ async def async_session(async_engine) -> AsyncGenerator[AsyncSession, None]:
                                     autocommit=False,
                                     autoflush=False,
                                     expire_on_commit=False,
-                                    bind=async_engine)   
+                                    bind=async_engine)
     logging.info("Configuration -----> Session created.")
     async with _session() as session:
 

@@ -36,7 +36,7 @@ async def test_retrive_author(
     response = await async_client.get(
                                         url=f"/author/{id}/")
     response_json = response.json()
-    assert response_json["id"] == int(id) 
+    assert response_json["id"] == int(id)
     assert response.status_code == 200
 
 

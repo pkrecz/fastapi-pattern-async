@@ -1,11 +1,12 @@
 import os
 from sqlalchemy.exc import DatabaseError, SQLAlchemyError
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from collections.abc import AsyncGenerator
 from functools import cache
 from dotenv import load_dotenv
 
-
+Base = declarative_base()
 load_dotenv()
 
 url = os.getenv("DATABASE_URL")

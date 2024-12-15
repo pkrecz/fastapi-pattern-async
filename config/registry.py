@@ -1,6 +1,5 @@
 import logging
-from app_example.models import Base
-from config.database import get_engine
+from config.database import Base, get_engine
 from app_example import controlers as example_controlers
 
 
@@ -14,7 +13,8 @@ async def init_models():
 
 
 def load_routers(application):
-    application.include_router(router=example_controlers.router,
+    application.include_router(
+                                router=example_controlers.router,
                                 prefix="",
                                 tags=["Example"])
     logger.info("Routers has been loaded.")
