@@ -1,14 +1,17 @@
 import os
 from sqlalchemy.exc import DatabaseError, SQLAlchemyError
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.orm import DeclarativeBase
 from collections.abc import AsyncGenerator
 from functools import cache
 from dotenv import load_dotenv
 
-Base = declarative_base()
-load_dotenv()
 
+class Base(DeclarativeBase):
+    pass
+
+
+load_dotenv()
 url = os.getenv("DATABASE_URL")
 
 
@@ -28,6 +31,7 @@ class DatabaseSessionClass:
         self.db = get_session()
         return self.db
 
+
     async def __aexit__(self, exc_type, exc_value: str, exc_traceback: str) -> None:
         try:
             if any([exc_type, exc_value, exc_traceback]):
@@ -43,4 +47,3 @@ class DatabaseSessionClass:
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     async with DatabaseSessionClass() as db:
         yield db
-

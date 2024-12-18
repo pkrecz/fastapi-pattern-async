@@ -24,27 +24,31 @@ class APIClass:
 		service = AuthorService(self.db)
 		return await service.author_create(data)
 
-	@router.put(path="/author/{id_author}/", response_model=AuthorViewBase, status_code=status.HTTP_200_OK)
+
+	@router.put(path="/author/{id}/", response_model=AuthorViewBase, status_code=status.HTTP_200_OK)
 	async def update_author(
 							self,
-							id_author: int,
+							id: int,
 							data: AuthorUpdateBase):
 		service = AuthorService(self.db)
-		return await service.author_update(id_author, data)
+		return await service.author_update(id, data)
 
-	@router.delete(path="/author/{id_author}/", status_code=status.HTTP_204_NO_CONTENT)
+
+	@router.delete(path="/author/{id}/", status_code=status.HTTP_204_NO_CONTENT)
 	async def delete_author(
 							self,
-							id_author: int):
+							id: int):
 		service = AuthorService(self.db)
-		return await service.author_delete(id_author)
+		return await service.author_delete(id)
 
-	@router.get(path="/author/{id_author}/", response_model=AuthorViewBase, status_code=status.HTTP_200_OK)
+
+	@router.get(path="/author/{id}/", response_model=AuthorViewBase, status_code=status.HTTP_200_OK)
 	async def get_author(
 							self,
-							id_author: int):
+							id: int):
 		service = AuthorService(self.db)
-		return await service.author_retrieve(id_author)
+		return await service.author_retrieve(id)
+
 
 	@router.get(path="/author/", response_model=list[AuthorViewBase], status_code=status.HTTP_200_OK)
 	async def list_author(
