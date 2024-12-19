@@ -1,4 +1,4 @@
-from typing import Type, TypeVar
+from typing import TypeVar
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi_filter.contrib.sqlalchemy import Filter
@@ -18,12 +18,12 @@ class AuthorService:
         self.crud = CrudOperationRepository(self.db, self.model)
 
 
-    async def author_create(self, data: Type[BaseModel]) -> Type[Model]:
+    async def author_create(self, data: BaseModel) -> Model:
         instance = self.model(**data.model_dump())
         return await self.crud.create(instance)
 
 
-    async def author_update(self, id: int, data: Type[BaseModel]) -> Type[Model]:
+    async def author_update(self, id: int, data: BaseModel) -> Model:
         instance = await self.crud.get_by_id(id)
         return await self.crud.update(instance, data)
 
@@ -33,11 +33,11 @@ class AuthorService:
         return await self.crud.delete(instance)
 
 
-    async def author_retrieve(self, id: int) -> Type[Model]:
+    async def author_retrieve(self, id: int) -> Model:
         instance = await self.crud.get_by_id(id)
         return await self.crud.retrieve(instance)
 
 
-    async def author_list(self, filter: Type[Filter] = None) -> Type[Model]:
+    async def author_list(self, filter: Filter = None) -> Model:
         instance = await self.crud.get_all(filter)
         return await self.crud.list(instance)

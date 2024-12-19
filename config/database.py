@@ -17,11 +17,11 @@ url = os.getenv("DATABASE_URL")
 
 @cache
 def get_engine(db_url: str = url):
-    return create_async_engine(db_url, pool_size=100, max_overflow=0, pool_pre_ping=True)
+    return create_async_engine(db_url)
 
 
 def get_session():
-    session = async_sessionmaker(autocommit=False, autoflush=False, expire_on_commit=False, bind=get_engine())
+    session = async_sessionmaker(autocommit=False, autoflush=False, bind=get_engine())
     return session()
 
 
