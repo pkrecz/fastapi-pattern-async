@@ -1,6 +1,13 @@
 import os
 
 
+async def test_middleware(async_client):
+    response = await async_client.get(url=f"/middleware/")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Middleware is working"}
+    assert response.headers["x-method"] == "It was request GET method."
+
+
 async def test_create_author(
                                 async_client,
                                 data_test_create_author):
@@ -30,8 +37,7 @@ async def test_update_author(
     assert response.status_code == 200
 
 
-async def test_retrive_author(
-                                async_client):
+async def test_retrive_author(async_client):
     id = os.environ["ID"]
     response = await async_client.get(
                                         url=f"/author/{id}/")
@@ -40,15 +46,13 @@ async def test_retrive_author(
     assert response.status_code == 200
 
 
-async def test_list_author(
-                                async_client):
+async def test_list_author(async_client):
     response = await async_client.get(
                                         url=f"/author/")
     assert response.status_code == 200
 
 
-async def test_delete_author(
-                                async_client):
+async def test_delete_author(async_client):
     id = os.environ["ID"]
     response = await async_client.delete(
                                         url=f"/author/{id}/")

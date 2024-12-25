@@ -7,7 +7,6 @@ from asgi_lifespan import LifespanManager
 from typing import AsyncGenerator
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.sql import text
 from config.database import Base, get_db
 from main import app
 
@@ -47,11 +46,6 @@ async def async_session(async_engine) -> AsyncGenerator[AsyncSession, None]:
         logging.info("Configuration -----> Rollback executed.")
         await session.close()
         logging.info("Configuration -----> Session closed.")
-
-        for table in reversed(Base.metadata.sorted_tables):
-            await session.execute(text(f"TRUNCATE {table.name} CASCADE;"))
-            await session.commit()
-        logging.info("Configuration -----> Truncate has been done.")
 
 
 @pytest_asyncio.fixture(scope="session")

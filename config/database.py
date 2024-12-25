@@ -5,6 +5,7 @@ from sqlalchemy.orm import DeclarativeBase
 from collections.abc import AsyncGenerator
 from functools import cache
 from dotenv import load_dotenv
+from .util import Singleton
 
 
 class Base(DeclarativeBase):
@@ -25,12 +26,11 @@ def get_session():
     return session()
 
 
-class DatabaseSessionClass:
+class DatabaseSessionClass(metaclass=Singleton):
 
     async def __aenter__(self):
         self.db = get_session()
         return self.db
-
 
     async def __aexit__(self, exc_type, exc_value: str, exc_traceback: str) -> None:
         try:
