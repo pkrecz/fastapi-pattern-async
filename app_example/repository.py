@@ -29,7 +29,8 @@ class CrudOperationRepository:
         return instance.all()
 
 
-    async def create(self, record: Model) -> Model:
+    async def create(self, data: dict) -> Model:
+        record = self.model(**data)
         self.db.add(record)
         await self.db.flush()
         await self.db.refresh(record)

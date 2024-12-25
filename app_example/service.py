@@ -19,8 +19,8 @@ class AuthorService:
 
 
     async def author_create(self, data: BaseModel) -> Model:
-        instance = self.model(**data.model_dump())
-        return await self.crud.create(instance)
+        input = data.model_dump()
+        return await self.crud.create(input)
 
 
     async def author_update(self, id: int, data: BaseModel) -> Model:
